@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <BubbleSort.hpp>
+#include <SelectionSort.hpp>
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -22,12 +23,12 @@ std::vector<int> generate_rand_int(const int& start, const int& end,
     return std::move(rand_int);
 }
 
-std::array<std::function<void(std::vector<int>&)>, 1> algorithms{
-    &BubbleSort::sort};
+std::array<std::function<void(std::vector<int>&)>, 2> algorithms{
+    &BubbleSort::sort, &SelectionSort::sort};
 
 namespace {
 TEST(SortingTest, PositiveIntegersOnly) {
-    for (int size{0}; size < 100; size++) {
+    for (int size{0}; size < 1000; size++) {
         for (auto algo : algorithms) {
             std::vector<int> rand_int{generate_rand_int(1, 100, size)};
             std::vector<int> copy_rand_int{rand_int};
@@ -41,7 +42,7 @@ TEST(SortingTest, PositiveIntegersOnly) {
 }
 
 TEST(SortingTest, NegativeIntegersOnly) {
-    for (int size{0}; size < 100; size++) {
+    for (int size{0}; size < 1000; size++) {
         for (auto algo : algorithms) {
             std::vector<int> rand_int{generate_rand_int(-100, 1, size)};
             std::vector<int> copy_rand_int{rand_int};
@@ -55,7 +56,7 @@ TEST(SortingTest, NegativeIntegersOnly) {
 }
 
 TEST(SortingTest, MixedIntegers) {
-    for (int size{0}; size < 100; size++) {
+    for (int size{0}; size < 1000; size++) {
         for (auto algo : algorithms) {
             std::vector<int> rand_int{generate_rand_int(-100, 100, size)};
             std::vector<int> copy_rand_int{rand_int};

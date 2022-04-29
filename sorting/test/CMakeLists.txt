@@ -15,7 +15,7 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 enable_testing()
 
-set(HEADER_FILES ../src/BubbleSort.hpp)
+file(GLOB HEADER_FILES CONFIGURE_DEPENDS ../src/*.hpp)
 set(SOURCES sorting_tests.cpp ${HEADER_FILES})
 
 add_executable(tests ${SOURCES})
