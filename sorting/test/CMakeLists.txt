@@ -19,6 +19,7 @@ file(GLOB HEADER_FILES CONFIGURE_DEPENDS ../src/*.hpp)
 set(SOURCES sorting_tests.cpp ${HEADER_FILES})
 
 add_executable(tests ${SOURCES})
+target_compile_options(tests PRIVATE -O3)
 target_include_directories(tests PRIVATE ../src)
 target_link_libraries(tests gtest_main)
 
