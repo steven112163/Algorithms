@@ -80,11 +80,23 @@ int main(int argc, char* argv[]) {
         records["C++ Sort"].push_back(time_span.count());
     }
 
+    // Get median running time
+    std::vector<std::pair<std::string, double>> results{};
+    for (auto& r : records)
+        results.emplace_back(r.first, r.second[static_cast<int>(ROUND / 2)]);
+
+    // Sort the algorithms by running time
+    auto comp = [](std::pair<std::string, double> x,
+                   std::pair<std::string, double> y) -> bool {
+        return x.second < y.second;
+    };
+    std::sort(results.begin(), results.end(), comp);
+
     // Display the results
     std::cout << "\r=============== Results ===============\n";
-    for (auto& r : records)
-        std::cout << r.first << "\t" << std::setprecision(8)
-                  << r.second[static_cast<int>(ROUND / 2)] << "\tseconds\n";
+    for (auto& r : results)
+        std::cout << r.first << "\t" << std::setprecision(8) << r.second
+                  << "\tseconds\n";
     std::cout << "=======================================" << std::endl;
 }
 
