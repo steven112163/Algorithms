@@ -4,14 +4,15 @@
 #include <limits>
 #include <vector>
 
+template <typename T>
 class MergeSortTopDown {
    public:
-    static void sort(std::vector<int>& numbers) {
+    static void sort(std::vector<T>& numbers) {
         merge_sort(numbers, 0, numbers.size() - 1);
     }
 
    private:
-    static void merge_sort(std::vector<int>& numbers, const int& start,
+    static void merge_sort(std::vector<T>& numbers, const int& start,
                            const int& end) {
         if (start >= end) return;
 
@@ -21,8 +22,8 @@ class MergeSortTopDown {
         merge(numbers, start, mid, end);
     }
 
-    static void merge(std::vector<int>& numbers, const int& start,
-                      const int& mid, const int& end) {
+    static void merge(std::vector<T>& numbers, const int& start, const int& mid,
+                      const int& end) {
         std::vector<int> left_numbers(numbers.begin() + start,
                                       numbers.begin() + mid + 1);
         std::vector<int> right_numbers(numbers.begin() + mid + 1,
@@ -39,14 +40,15 @@ class MergeSortTopDown {
     }
 };
 
+template <typename T>
 class MergeSortBottomUp {
    public:
-    static void sort(std::vector<int>& numbers) {
+    static void sort(std::vector<T>& numbers) {
         merge_sort(numbers, numbers.size());
     }
 
    private:
-    static void merge_sort(std::vector<int>& numbers, const int& len) {
+    static void merge_sort(std::vector<T>& numbers, const int& len) {
         std::vector<int> temp_numbers(len);
 
         for (int seq_len{1}; seq_len < len; seq_len += seq_len) {

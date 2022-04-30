@@ -26,8 +26,8 @@ std::vector<int> generate_rand_int(const int& start, const int& end,
 }
 
 std::array<std::function<void(std::vector<int>&)>, 5> algorithms{
-    &BubbleSort::sort, &SelectionSort::sort, &InsertionSort::sort,
-    &MergeSortTopDown::sort, &MergeSortBottomUp::sort};
+    &BubbleSort<int>::sort, &SelectionSort<int>::sort, &InsertionSort<int>::sort,
+    &MergeSortTopDown<int>::sort, &MergeSortBottomUp<int>::sort};
 
 namespace {
 TEST(SortingTest, PositiveIntegersOnly) {

@@ -23,11 +23,11 @@ void display_progress_bar(const int& round);
 int main(int argc, char* argv[]) {
     // Sorting algorithms
     std::unordered_map<std::string, std::function<void(std::vector<int>&)>>
-        algorithms{{"Bubble Sort", &BubbleSort::sort},
-                   {"Selection Sort", &SelectionSort::sort},
-                   {"Insertion Sort", &InsertionSort::sort},
-                   {"Merge Sort (TD)", &MergeSortTopDown::sort},
-                   {"Merge Sort (BU)", &MergeSortBottomUp::sort}};
+        algorithms{{"Bubble Sort", &BubbleSort<int>::sort},
+                   {"Selection Sort", &SelectionSort<int>::sort},
+                   {"Insertion Sort", &InsertionSort<int>::sort},
+                   {"Merge Sort (TD)", &MergeSortTopDown<int>::sort},
+                   {"Merge Sort (BU)", &MergeSortBottomUp<int>::sort}};
 
     // Execution time
     std::unordered_map<std::string, std::vector<double>> records{};

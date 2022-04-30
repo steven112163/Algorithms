@@ -4,14 +4,15 @@
 #include <utility>
 #include <vector>
 
+template <typename T>
 class BubbleSort {
    public:
-    static void sort(std::vector<int>& numbers) {
+    static void sort(std::vector<T>& numbers) {
         bubble_sort(numbers, numbers.size());
     }
 
    private:
-    static void bubble_sort(std::vector<int>& numbers, const int& len) {
+    static void bubble_sort(std::vector<T>& numbers, const int& len) {
         for (int round{0}; round < len - 1; round++)
             for (int idx{0}; idx < len - 1 - round; idx++)
                 if (numbers[idx] > numbers[idx + 1])

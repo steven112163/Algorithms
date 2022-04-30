@@ -4,14 +4,15 @@
 #include <utility>
 #include <vector>
 
+template <typename T>
 class SelectionSort {
    public:
-    static void sort(std::vector<int>& numbers) {
+    static void sort(std::vector<T>& numbers) {
         selection_sort(numbers, numbers.size());
     }
 
    private:
-    static void selection_sort(std::vector<int>& numbers, const int& len) {
+    static void selection_sort(std::vector<T>& numbers, const int& len) {
         for (int tail{0}; tail < len - 1; tail++) {
             int min_idx{tail};
             for (int idx{tail + 1}; idx < len; idx++)
