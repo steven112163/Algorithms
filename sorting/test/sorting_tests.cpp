@@ -2,6 +2,7 @@
 
 #include <BubbleSort.hpp>
 #include <InsertionSort.hpp>
+#include <MergeSort.hpp>
 #include <SelectionSort.hpp>
 #include <algorithm>
 #include <array>
@@ -24,8 +25,9 @@ std::vector<int> generate_rand_int(const int& start, const int& end,
     return std::move(rand_int);
 }
 
-std::array<std::function<void(std::vector<int>&)>, 3> algorithms{
-    &BubbleSort::sort, &SelectionSort::sort, &InsertionSort::sort};
+std::array<std::function<void(std::vector<int>&)>, 5> algorithms{
+    &BubbleSort::sort, &SelectionSort::sort, &InsertionSort::sort,
+    &MergeSortTopDown::sort, &MergeSortBottomUp::sort};
 
 namespace {
 TEST(SortingTest, PositiveIntegersOnly) {

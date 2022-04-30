@@ -1,5 +1,6 @@
 #include <BubbleSort.hpp>
 #include <InsertionSort.hpp>
+#include <MergeSort.hpp>
 #include <SelectionSort.hpp>
 #include <algorithm>
 #include <chrono>
@@ -24,7 +25,9 @@ int main(int argc, char* argv[]) {
     std::unordered_map<std::string, std::function<void(std::vector<int>&)>>
         algorithms{{"Bubble Sort", &BubbleSort::sort},
                    {"Selection Sort", &SelectionSort::sort},
-                   {"Insertion Sort", &InsertionSort::sort}};
+                   {"Insertion Sort", &InsertionSort::sort},
+                   {"Merge Sort (TD)", &MergeSortTopDown::sort},
+                   {"Merge Sort (BU)", &MergeSortBottomUp::sort}};
 
     // Execution time
     std::unordered_map<std::string, std::vector<double>> records{};
