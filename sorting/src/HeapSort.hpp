@@ -7,12 +7,12 @@
 template <typename T>
 class HeapSort {
    public:
-    static void sort(std::vector<int>& numbers) {
+    static void sort(std::vector<T>& numbers) {
         heap_sort(numbers, numbers.size());
     }
 
    private:
-    static void heap_sort(std::vector<int>& numbers, const int& len) {
+    static void heap_sort(std::vector<T>& numbers, const int& len) {
         for (int parent{len / 2 - 1}; parent > -1; parent--)
             heapify(numbers, len, parent);
 
@@ -22,7 +22,7 @@ class HeapSort {
         }
     }
 
-    static void heapify(std::vector<int>& numbers, const int& len, int parent) {
+    static void heapify(std::vector<T>& numbers, const int& len, int parent) {
         while (true) {
             int left_child{parent * 2 + 1};
             int right_child{parent * 2 + 2};
