@@ -2,6 +2,7 @@
 #include <HeapSort.hpp>
 #include <InsertionSort.hpp>
 #include <MergeSort.hpp>
+#include <QuickSort.hpp>
 #include <SelectionSort.hpp>
 #include <algorithm>
 #include <chrono>
@@ -29,7 +30,9 @@ int main(int argc, char* argv[]) {
                    {"Insertion Sort", &InsertionSort<int>::sort},
                    {"Merge Sort (TD)", &MergeSortTopDown<int>::sort},
                    {"Merge Sort (BU)", &MergeSortBottomUp<int>::sort},
-                   {"Heap Sort", &HeapSort<int>::sort}};
+                   {"Heap Sort", &HeapSort<int>::sort},
+                   {"Quick Sort (L)", &QuickSortLomuto<int>::sort},
+                   {"Quick Sort (H)", &QuickSortHoare<int>::sort}};
 
     // Execution time
     std::unordered_map<std::string, std::vector<double>> records{};

@@ -10,3 +10,4 @@
 | Insertion Sort |   O(n)   |  O(n^2)  |  O(n^2)  | O(1)  |   ✅    |
 | Merge Sort     | O(nlogn) | O(nlogn) | O(nlogn) | O(n)  |   ✅    |
 | Heap Sort      | O(nlogn) | O(nlogn) | O(nlogn) | O(1)  |   ❌    |
+| Quick Sort     | O(nlogn) |  O(n^2)  | O(nlogn) | O(1)  |   ❌    |

@@ -4,6 +4,7 @@
 #include <HeapSort.hpp>
 #include <InsertionSort.hpp>
 #include <MergeSort.hpp>
+#include <QuickSort.hpp>
 #include <SelectionSort.hpp>
 #include <algorithm>
 #include <array>
@@ -26,10 +27,11 @@ std::vector<int> generate_rand_int(const int& start, const int& end,
     return std::move(rand_int);
 }
 
-std::array<std::function<void(std::vector<int>&)>, 6> algorithms{
+std::array<std::function<void(std::vector<int>&)>, 8> algorithms{
     &BubbleSort<int>::sort,        &SelectionSort<int>::sort,
     &InsertionSort<int>::sort,     &MergeSortTopDown<int>::sort,
-    &MergeSortBottomUp<int>::sort, &HeapSort<int>::sort};
+    &MergeSortBottomUp<int>::sort, &HeapSort<int>::sort,
+    &QuickSortLomuto<int>::sort,   &QuickSortHoare<int>::sort};
 
 namespace {
 TEST(SortingTest, PositiveIntegersOnly) {
