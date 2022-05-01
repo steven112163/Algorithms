@@ -1,4 +1,5 @@
 #include <BubbleSort.hpp>
+#include <HeapSort.hpp>
 #include <InsertionSort.hpp>
 #include <MergeSort.hpp>
 #include <SelectionSort.hpp>
@@ -27,7 +28,8 @@ int main(int argc, char* argv[]) {
                    {"Selection Sort", &SelectionSort<int>::sort},
                    {"Insertion Sort", &InsertionSort<int>::sort},
                    {"Merge Sort (TD)", &MergeSortTopDown<int>::sort},
-                   {"Merge Sort (BU)", &MergeSortBottomUp<int>::sort}};
+                   {"Merge Sort (BU)", &MergeSortBottomUp<int>::sort},
+                   {"Heap Sort", &HeapSort<int>::sort}};
 
     // Execution time
     std::unordered_map<std::string, std::vector<double>> records{};

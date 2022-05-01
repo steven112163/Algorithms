@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <BubbleSort.hpp>
+#include <HeapSort.hpp>
 #include <InsertionSort.hpp>
 #include <MergeSort.hpp>
 #include <SelectionSort.hpp>
@@ -25,9 +26,10 @@ std::vector<int> generate_rand_int(const int& start, const int& end,
     return std::move(rand_int);
 }
 
-std::array<std::function<void(std::vector<int>&)>, 5> algorithms{
-    &BubbleSort<int>::sort, &SelectionSort<int>::sort, &InsertionSort<int>::sort,
-    &MergeSortTopDown<int>::sort, &MergeSortBottomUp<int>::sort};
+std::array<std::function<void(std::vector<int>&)>, 6> algorithms{
+    &BubbleSort<int>::sort,        &SelectionSort<int>::sort,
+    &InsertionSort<int>::sort,     &MergeSortTopDown<int>::sort,
+    &MergeSortBottomUp<int>::sort, &HeapSort<int>::sort};
 
 namespace {
 TEST(SortingTest, PositiveIntegersOnly) {
