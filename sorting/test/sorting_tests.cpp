@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <BubbleSort.hpp>
+#include <BucketSort.hpp>
 #include <HeapSort.hpp>
 #include <InsertionSort.hpp>
 #include <MergeSort.hpp>
@@ -32,7 +33,8 @@ std::vector<std::function<void(
         &algo::BubbleSort<int>::sort,        &algo::SelectionSort<int>::sort,
         &algo::InsertionSort<int>::sort,     &algo::MergeSortTopDown<int>::sort,
         &algo::MergeSortBottomUp<int>::sort, &algo::HeapSort<int>::sort,
-        &algo::QuickSortLomuto<int>::sort,   &algo::QuickSortHoare<int>::sort};
+        &algo::QuickSortLomuto<int>::sort,   &algo::QuickSortHoare<int>::sort,
+        &algo::BucketSort<int>::sort};
 
 namespace {
 TEST(SortingTest, PositiveIntegersOnly) {

@@ -4,6 +4,7 @@
 #include <MergeSort.hpp>
 #include <QuickSort.hpp>
 #include <SelectionSort.hpp>
+#include <BucketSort.hpp>
 #include <algorithm>
 #include <chrono>
 #include <functional>
@@ -35,7 +36,8 @@ int main(int argc, char* argv[]) {
                    {"Merge Sort (BU)", &algo::MergeSortBottomUp<int>::sort},
                    {"Heap Sort", &algo::HeapSort<int>::sort},
                    {"Quick Sort (L)", &algo::QuickSortLomuto<int>::sort},
-                   {"Quick Sort (H)", &algo::QuickSortHoare<int>::sort}};
+                   {"Quick Sort (H)", &algo::QuickSortHoare<int>::sort},
+                   {"Bucket Sort", &algo::BucketSort<int>::sort}};
 
     // Execution time
     std::unordered_map<std::string, std::vector<double>> records{};
