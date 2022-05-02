@@ -4,6 +4,7 @@
 #include <limits>
 #include <vector>
 
+namespace algo {
 template <typename T>
 class MergeSortTopDown {
    public:
@@ -76,5 +77,6 @@ class MergeSortBottomUp {
         }
     }
 };
+}  // namespace algo
 
 #endif

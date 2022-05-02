@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 
+namespace algo {
 template <typename T>
 class InsertionSort {
    public:
@@ -23,5 +24,6 @@ class InsertionSort {
         }
     }
 };
+}  // namespace algo
 
 #endif

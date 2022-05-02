@@ -28,10 +28,10 @@ std::vector<int> generate_rand_int(const int& start, const int& end,
 }
 
 std::array<std::function<void(std::vector<int>&)>, 8> algorithms{
-    &BubbleSort<int>::sort,        &SelectionSort<int>::sort,
-    &InsertionSort<int>::sort,     &MergeSortTopDown<int>::sort,
-    &MergeSortBottomUp<int>::sort, &HeapSort<int>::sort,
-    &QuickSortLomuto<int>::sort,   &QuickSortHoare<int>::sort};
+    &algo::BubbleSort<int>::sort,        &algo::SelectionSort<int>::sort,
+    &algo::InsertionSort<int>::sort,     &algo::MergeSortTopDown<int>::sort,
+    &algo::MergeSortBottomUp<int>::sort, &algo::HeapSort<int>::sort,
+    &algo::QuickSortLomuto<int>::sort,   &algo::QuickSortHoare<int>::sort};
 
 namespace {
 TEST(SortingTest, PositiveIntegersOnly) {

@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 
+namespace algo {
 template <typename T>
 class HeapSort {
    public:
@@ -42,5 +43,6 @@ class HeapSort {
         }
     }
 };
+}  // namespace algo
 
 #endif

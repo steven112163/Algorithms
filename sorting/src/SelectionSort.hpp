@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 
+namespace algo {
 template <typename T>
 class SelectionSort {
    public:
@@ -22,5 +23,6 @@ class SelectionSort {
         }
     }
 };
+}  // namespace algo
 
 #endif

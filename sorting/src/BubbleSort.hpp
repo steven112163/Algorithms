@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 
+namespace algo {
 template <typename T>
 class BubbleSort {
    public:
@@ -19,5 +20,6 @@ class BubbleSort {
                     std::swap(numbers[idx], numbers[idx + 1]);
     }
 };
+}  // namespace algo
 
 #endif
