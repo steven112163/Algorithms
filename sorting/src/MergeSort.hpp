@@ -21,6 +21,7 @@ class MergeSortTopDown {
         const std::function<bool(const T&, const T&)>& comp) {
         if (start >= end) return;
 
+        // Divide the array and merge them
         int mid{(start + end) / 2};
         merge_sort(numbers, start, mid, comp);
         merge_sort(numbers, mid + 1, end, comp);
@@ -45,7 +46,8 @@ class MergeSortTopDown {
             left_numbers.push_back(std::numeric_limits<T>::min());
             right_numbers.push_back(std::numeric_limits<T>::min());
         }
-        
+
+        // Sort the numbers in left and right
         int left_idx{0}, right_idx{0};
         for (int idx{start}; idx <= end; idx++) {
             numbers[idx] =

@@ -19,6 +19,7 @@ class BubbleSort {
     static void bubble_sort(
         std::vector<T>& numbers, const int& len,
         const std::function<bool(const T&, const T&)>& comp) {
+        // Place the minimum/maximum at the tail of the subarray in each round
         for (int round{0}; round < len - 1; round++)
             for (int idx{0}; idx < len - 1 - round; idx++)
                 if (comp(numbers[idx + 1], numbers[idx]))

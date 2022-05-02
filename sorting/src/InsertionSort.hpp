@@ -19,6 +19,8 @@ class InsertionSort {
     static void insertion_sort(
         std::vector<T>& numbers, const int& len,
         const std::function<bool(const T&, const T&)>& comp) {
+        // Find the place for the given number in the sorted subarray by
+        // iterating from the end of the sorted subarray
         for (int key_idx{1}; key_idx < len; key_idx++) {
             int sorted_idx{key_idx - 1}, key{numbers[key_idx]};
             while (sorted_idx > -1 && comp(key, numbers[sorted_idx])) {

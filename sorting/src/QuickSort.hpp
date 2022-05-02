@@ -21,6 +21,8 @@ class QuickSortLomuto {
         const std::function<bool(const T&, const T&)>& comp) {
         if (start >= end) return;
 
+        // Partition the array by a pivot
+        // Sort left and right
         int pivot{partition(numbers, start, end, comp)};
         quick_sort(numbers, start, pivot - 1, comp);
         quick_sort(numbers, pivot + 1, end, comp);
@@ -32,9 +34,12 @@ class QuickSortLomuto {
         int pivot_idx{(start + end) / 2};
         int pivot{numbers[pivot_idx]};
 
+        // Place the pivot at the end
         std::swap(numbers[pivot_idx], numbers[end]);
         pivot_idx = end;
 
+        // Numbers in the left of the pivot are smaller/bigger than the pivot
+        // Numbers in the right of the pivot are bigger/smaller than the pivot
         int swap_idx{start};
         for (int idx{start}; idx < end; idx++)
             if (comp(numbers[idx], pivot)) {
@@ -62,6 +67,8 @@ class QuickSortHoare {
         const std::function<bool(const T&, const T&)>& comp) {
         if (start >= end) return;
 
+        // Partition the array by a pivot
+        // Sort left and right
         int pivot{partition(numbers, start, end, comp)};
         quick_sort(numbers, start, pivot, comp);
         quick_sort(numbers, pivot + 1, end, comp);
@@ -72,6 +79,8 @@ class QuickSortHoare {
                          const std::function<bool(const T&, const T&)>& comp) {
         int pivot{numbers[(start + end) / 2]};
 
+        // Numbers in the left of the pivot are smaller/bigger than the pivot
+        // Numbers in the right of the pivot are bigger/smaller than the pivot
         int left{start - 1}, right{end + 1};
         while (true) {
             do {

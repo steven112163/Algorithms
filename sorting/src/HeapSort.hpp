@@ -18,9 +18,11 @@ class HeapSort {
    private:
     static void heap_sort(std::vector<T>& numbers, const int& len,
                           const std::function<bool(const T&, const T&)>& comp) {
+        // Heapify the array by starting from the last parent
         for (int parent{len / 2 - 1}; parent > -1; parent--)
             heapify(numbers, len, parent, comp);
 
+        // Place the number at the tail of the subarray and heapify the subarray
         for (int idx{len - 1}; idx > -1; idx--) {
             std::swap(numbers[0], numbers[idx]);
             heapify(numbers, idx, 0, comp);
@@ -29,6 +31,7 @@ class HeapSort {
 
     static void heapify(std::vector<T>& numbers, const int& len, int parent,
                         const std::function<bool(const T&, const T&)>& comp) {
+        // Make sure that all parents are the smaller/bigger than their children
         while (true) {
             int left_child{parent * 2 + 1};
             int right_child{parent * 2 + 2};

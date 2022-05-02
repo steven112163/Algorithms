@@ -19,6 +19,8 @@ class SelectionSort {
     static void selection_sort(
         std::vector<T>& numbers, const int& len,
         const std::function<bool(const T&, const T&)>& comp) {
+        // Find the minimum/maximum number and place it at the end of the sorted
+        // subarray
         for (int tail{0}; tail < len - 1; tail++) {
             int target_idx{tail};
             for (int idx{tail + 1}; idx < len; idx++)
