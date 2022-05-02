@@ -2,6 +2,7 @@
 
 #include <BubbleSort.hpp>
 #include <BucketSort.hpp>
+#include <CountSort.hpp>
 #include <HeapSort.hpp>
 #include <InsertionSort.hpp>
 #include <MergeSort.hpp>
@@ -34,7 +35,7 @@ std::vector<std::function<void(
         &algo::InsertionSort<int>::sort,     &algo::MergeSortTopDown<int>::sort,
         &algo::MergeSortBottomUp<int>::sort, &algo::HeapSort<int>::sort,
         &algo::QuickSortLomuto<int>::sort,   &algo::QuickSortHoare<int>::sort,
-        &algo::BucketSort<int>::sort};
+        &algo::BucketSort<int>::sort,        &algo::CountSort::sort};
 
 namespace {
 TEST(SortingTest, PositiveIntegersOnly) {

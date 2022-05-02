@@ -1,10 +1,11 @@
 #include <BubbleSort.hpp>
+#include <BucketSort.hpp>
+#include <CountSort.hpp>
 #include <HeapSort.hpp>
 #include <InsertionSort.hpp>
 #include <MergeSort.hpp>
 #include <QuickSort.hpp>
 #include <SelectionSort.hpp>
-#include <BucketSort.hpp>
 #include <algorithm>
 #include <chrono>
 #include <functional>
@@ -37,7 +38,8 @@ int main(int argc, char* argv[]) {
                    {"Heap Sort", &algo::HeapSort<int>::sort},
                    {"Quick Sort (L)", &algo::QuickSortLomuto<int>::sort},
                    {"Quick Sort (H)", &algo::QuickSortHoare<int>::sort},
-                   {"Bucket Sort", &algo::BucketSort<int>::sort}};
+                   {"Bucket Sort", &algo::BucketSort<int>::sort},
+                   {"Count Sort", &algo::CountSort::sort}};
 
     // Execution time
     std::unordered_map<std::string, std::vector<double>> records{};
