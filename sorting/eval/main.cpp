@@ -24,7 +24,10 @@ void display_progress_bar(const int& round);
 
 int main(int argc, char* argv[]) {
     // Sorting algorithms
-    std::unordered_map<std::string, std::function<void(std::vector<int>&)>>
+    std::unordered_map<
+        std::string,
+        std::function<void(std::vector<int>&,
+                           const std::function<bool(const int&, const int&)>)>>
         algorithms{{"Bubble Sort", &algo::BubbleSort<int>::sort},
                    {"Selection Sort", &algo::SelectionSort<int>::sort},
                    {"Insertion Sort", &algo::InsertionSort<int>::sort},
@@ -55,7 +58,7 @@ int main(int argc, char* argv[]) {
                 high_resolution_clock::now()};
 
             // Sort the vector of random integers
-            algo.second(copy_rand_int);
+            algo.second(copy_rand_int, std::less<int>());
 
             // Record the end time
             high_resolution_clock::time_point end{high_resolution_clock::now()};
