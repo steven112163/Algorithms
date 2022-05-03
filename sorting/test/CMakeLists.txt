@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(Sorting)
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -21,6 +22,6 @@ set(SOURCES sorting_tests.cpp ${HEADER_FILES})
 add_executable(tests ${SOURCES})
 target_compile_options(tests PRIVATE -O3)
 target_include_directories(tests PRIVATE ../src)
-target_link_libraries(tests gtest_main)
+target_link_libraries(tests PRIVATE gtest_main)
 
 gtest_discover_tests(tests)

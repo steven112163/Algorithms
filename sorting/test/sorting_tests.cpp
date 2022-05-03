@@ -16,17 +16,7 @@
 #include <vector>
 
 std::vector<int> generate_rand_int(const int& start, const int& end,
-                                   const int& num) {
-    std::mt19937 rng{static_cast<unsigned int>(
-        std::chrono::high_resolution_clock::now().time_since_epoch().count())};
-    std::uniform_int_distribution<int> distribution{start, end};
-
-    std::vector<int> rand_int{};
-    for (int count{0}; count < num; count++)
-        rand_int.push_back(distribution(rng));
-
-    return std::move(rand_int);
-}
+                                   const int& num);
 
 std::vector<std::function<void(
     std::vector<int>&, const std::function<bool(const int&, const int&)>)>>
@@ -94,6 +84,19 @@ TEST(SortingTest, Decreasing) {
     }
 }
 }  // namespace
+
+std::vector<int> generate_rand_int(const int& start, const int& end,
+                                   const int& num) {
+    std::mt19937 rng{static_cast<unsigned int>(
+        std::chrono::high_resolution_clock::now().time_since_epoch().count())};
+    std::uniform_int_distribution<int> distribution{start, end};
+
+    std::vector<int> rand_int{};
+    for (int count{0}; count < num; count++)
+        rand_int.push_back(distribution(rng));
+
+    return std::move(rand_int);
+}
 
 int main(int argc, char* argv[]) {
     std::cout << "Running tests for sorting algorithms" << std::endl;
