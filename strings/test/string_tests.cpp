@@ -13,7 +13,22 @@ std::vector<int> naive_search(const std::string& text,
                               const std::string& pattern);
 
 namespace {
-TEST(StringTest, SearchPattern) {
+TEST(SearchingTest, SimpleTextPattern) {
+    std::vector<std::pair<std::string, std::string>> text_and_pattern{
+        {"abababa", "aba"},
+        {"abc", "abcdef"},
+        {"P@TTerNabcdefP@TTerNP@TTerNabcdefabcdefabcdefabcdefP@TTerN",
+         "P@TTerN"}};
+
+    for (auto& t_and_p : text_and_pattern) {
+        std::string text{t_and_p.first}, pattern{t_and_p.second};
+        std::vector<int> answer{naive_search(text, pattern)};
+        std::vector<int> result{algo::KnuthMorrisPratt::search(text, pattern)};
+        EXPECT_EQ(answer, result);
+    }
+}
+
+TEST(SearchingTest, RandomTextPattern) {
     for (int len_text{0}; len_text < 1000; len_text++) {
         for (int len_pattern{0}; len_pattern < 100; len_pattern++) {
             std::string text{generate_rand_char(len_text)};
