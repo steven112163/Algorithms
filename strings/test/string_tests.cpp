@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include <KnuthMorrisPratt.hpp>
+#include <NaiveSearch.hpp>
 #include <algorithm>
 #include <chrono>
 #include <functional>
@@ -9,22 +10,31 @@
 #include <string>
 
 std::string generate_rand_char(const int& num);
-std::vector<int> naive_search(const std::string& text,
-                              const std::string& pattern);
+std::vector<int> standard_search(const std::string& text,
+                                 const std::string& pattern);
+
+std::vector<
+    std::function<std::vector<int>(const std::string&, const std::string&)>>
+    search_algorithms{&algo::NaiveSearch::search,
+                      &algo::KnuthMorrisPratt::search};
 
 namespace {
 TEST(SearchingTest, SimpleTextPattern) {
     std::vector<std::pair<std::string, std::string>> text_and_pattern{
         {"abababa", "aba"},
         {"abc", "abcdef"},
+        {"ABABAAABAABAB", "AA"},
         {"P@TTerNabcdefP@TTerNP@TTerNabcdefabcdefabcdefabcdefP@TTerN",
          "P@TTerN"}};
 
     for (auto& t_and_p : text_and_pattern) {
         std::string text{t_and_p.first}, pattern{t_and_p.second};
-        std::vector<int> answer{naive_search(text, pattern)};
-        std::vector<int> result{algo::KnuthMorrisPratt::search(text, pattern)};
-        EXPECT_EQ(answer, result);
+        std::vector<int> answer{standard_search(text, pattern)};
+
+        for (auto& algorithm : search_algorithms) {
+            std::vector<int> result{algorithm(text, pattern)};
+            EXPECT_EQ(answer, result);
+        }
     }
 }
 
@@ -34,11 +44,12 @@ TEST(SearchingTest, RandomTextPattern) {
             std::string text{generate_rand_char(len_text)};
             std::string pattern(generate_rand_char(len_pattern));
 
-            std::vector<int> answer{naive_search(text, pattern)};
-            std::vector<int> result{
-                algo::KnuthMorrisPratt::search(text, pattern)};
+            std::vector<int> answer{standard_search(text, pattern)};
 
-            EXPECT_EQ(answer, result);
+            for (auto& algorithm : search_algorithms) {
+                std::vector<int> result{algorithm(text, pattern)};
+                EXPECT_EQ(answer, result);
+            }
         }
     }
 }
@@ -56,23 +67,20 @@ std::string generate_rand_char(const int& num) {
     return std::move(rand_char);
 }
 
-std::vector<int> naive_search(const std::string& text,
-                              const std::string& pattern) {
+std::vector<int> standard_search(const std::string& text,
+                                 const std::string& pattern) {
     std::vector<int> indices{};
 
-    if (text.length() == 0 || pattern.length() == 0) return std::move(indices);
+    int len_text{static_cast<int>(text.length())};
+    int len_pattern{static_cast<int>(pattern.length())};
 
-    for (int text_idx{0}; text_idx < text.length(); text_idx++) {
-        bool found = true;
-        for (int pattern_idx{0}; pattern_idx < pattern.length();
-             pattern_idx++) {
-            if (text[text_idx + pattern_idx] != pattern[pattern_idx]) {
-                found = false;
-                break;
-            }
-        }
+    if (len_text == 0 || len_pattern == 0 || len_pattern > len_text)
+        return std::move(indices);
 
-        if (found) indices.push_back(text_idx);
+    std::size_t found_idx{text.find(pattern)};
+    while (found_idx != std::string::npos) {
+        indices.push_back(found_idx);
+        found_idx = text.find(pattern, found_idx + 1);
     }
 
     return std::move(indices);

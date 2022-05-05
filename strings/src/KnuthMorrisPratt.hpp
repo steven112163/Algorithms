@@ -20,7 +20,8 @@ class KnuthMorrisPratt {
         int len_text{static_cast<int>(text.length())};
         int len_pattern{static_cast<int>(pattern.length())};
 
-        if (len_text == 0 || len_pattern == 0) return std::move(indices);
+        if (len_text == 0 || len_pattern == 0 || len_pattern > len_text)
+            return std::move(indices);
 
         std::vector<int> failure_function{
             compute_failure(pattern, len_pattern)};

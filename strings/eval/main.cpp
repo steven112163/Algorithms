@@ -1,4 +1,5 @@
 #include <KnuthMorrisPratt.hpp>
+#include <NaiveSearch.hpp>
 #include <algorithm>
 #include <chrono>
 #include <functional>
@@ -14,8 +15,8 @@
 #define LEN_PATTERN 100
 
 std::string generate_rand_char(const int& num);
-std::vector<int> naive_search(const std::string& text,
-                              const std::string& pattern);
+std::vector<int> standard_search(const std::string& text,
+                                 const std::string& pattern);
 void display_progress_bar(const int& round);
 std::vector<std::pair<std::string, double>> extract_results(
     const std::unordered_map<std::string, std::vector<double>>& records);
@@ -26,7 +27,8 @@ int main(int argc, char* argv[]) {
         std::string,
         std::function<std::vector<int>(const std::string&, const std::string&)>>
         search_algorithms{
-            {"Naive Algorithm", &naive_search},
+            {"C++ Find", &standard_search},
+            {"Naive Algorithm", &algo::NaiveSearch::search},
             {"Knuth-Morris-Pratt Algorithm", &algo::KnuthMorrisPratt::search}};
 
     // Execution time
@@ -93,23 +95,20 @@ std::string generate_rand_char(const int& num) {
     return std::move(rand_char);
 }
 
-std::vector<int> naive_search(const std::string& text,
-                              const std::string& pattern) {
+std::vector<int> standard_search(const std::string& text,
+                                 const std::string& pattern) {
     std::vector<int> indices{};
 
-    if (text.length() == 0 || pattern.length() == 0) return std::move(indices);
+    int len_text{static_cast<int>(text.length())};
+    int len_pattern{static_cast<int>(pattern.length())};
 
-    for (int text_idx{0}; text_idx < text.length(); text_idx++) {
-        bool found = true;
-        for (int pattern_idx{0}; pattern_idx < pattern.length();
-             pattern_idx++) {
-            if (text[text_idx + pattern_idx] != pattern[pattern_idx]) {
-                found = false;
-                break;
-            }
-        }
+    if (len_text == 0 || len_pattern == 0 || len_pattern > len_text)
+        return std::move(indices);
 
-        if (found) indices.push_back(text_idx);
+    std::size_t found_idx{text.find(pattern)};
+    while (found_idx != std::string::npos) {
+        indices.push_back(found_idx);
+        found_idx = text.find(pattern, found_idx + 1);
     }
 
     return std::move(indices);
