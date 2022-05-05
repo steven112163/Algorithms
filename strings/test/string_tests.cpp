@@ -47,7 +47,7 @@ TEST(SearchingTest, RandomTextPattern) {
 std::string generate_rand_char(const int& num) {
     std::mt19937 rng{static_cast<unsigned int>(
         std::chrono::high_resolution_clock::now().time_since_epoch().count())};
-    std::uniform_int_distribution<int> distribution{97, 122};
+    std::uniform_int_distribution<int> distribution{32, 126};
 
     std::string rand_char{};
     for (int count{0}; count < num; count++)
