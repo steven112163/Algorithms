@@ -23,4 +23,7 @@ Algorithms &amp; Data Structures
 
 
 ## String Algorithms
-* [Knuth-Morris-Pratt Algorithm](strings/src/KnuthMorrisPratt.hpp) (search patterns) --- **O(n + m)**
+### Pattern Searching
+* [Naive Algorithm](strings/src/NaiveSearch.hpp) --- **O(nm)**
+* [Knuth-Morris-Pratt Algorithm](strings/src/KnuthMorrisPratt.hpp) --- **O(n + m)**
+* [Boyer-Moore Algorithm](strings/src/BoyerMoore.hpp) --- **O(n / m + m)**

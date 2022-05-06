@@ -1,3 +1,4 @@
+#include <BoyerMoore.hpp>
 #include <KnuthMorrisPratt.hpp>
 #include <NaiveSearch.hpp>
 #include <algorithm>
@@ -11,8 +12,8 @@
 #include <vector>
 
 #define ROUND 20
-#define LEN_TEXT 10000000
-#define LEN_PATTERN 100
+#define LEN_TEXT 100000000
+#define LEN_PATTERN 1000
 
 std::string generate_rand_char(const int& num);
 std::vector<int> standard_search(const std::string& text,
@@ -29,7 +30,8 @@ int main(int argc, char* argv[]) {
         search_algorithms{
             {"C++ Find", &standard_search},
             {"Naive Algorithm", &algo::NaiveSearch::search},
-            {"Knuth-Morris-Pratt Algorithm", &algo::KnuthMorrisPratt::search}};
+            {"Knuth-Morris-Pratt Algorithm", &algo::KnuthMorrisPratt::search},
+            {"Boyer-Moore Algorithm", &algo::BoyerMoore::search}};
 
     // Execution time
     std::unordered_map<std::string, std::vector<double>> search_records{};
@@ -74,10 +76,13 @@ int main(int argc, char* argv[]) {
 
         if (r.first == "Knuth-Morris-Pratt Algorithm")
             std::cout << "\t";
+        else if (r.first == "Boyer-Moore Algorithm")
+            std::cout << "\t\t";
         else
             std::cout << "\t\t\t";
 
-        std::cout << std::setprecision(8) << r.second << "\tseconds\n";
+        std::cout << std::fixed << std::setprecision(8) << r.second
+                  << "\tseconds\n";
     }
     std::cout << "======================================================="
               << std::endl;

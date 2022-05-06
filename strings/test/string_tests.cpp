@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <BoyerMoore.hpp>
 #include <KnuthMorrisPratt.hpp>
 #include <NaiveSearch.hpp>
 #include <algorithm>
@@ -16,7 +17,8 @@ std::vector<int> standard_search(const std::string& text,
 std::vector<
     std::function<std::vector<int>(const std::string&, const std::string&)>>
     search_algorithms{&algo::NaiveSearch::search,
-                      &algo::KnuthMorrisPratt::search};
+                      &algo::KnuthMorrisPratt::search,
+                      &algo::BoyerMoore::search};
 
 namespace {
 TEST(SearchingTest, SimpleTextPattern) {
@@ -40,7 +42,7 @@ TEST(SearchingTest, SimpleTextPattern) {
 
 TEST(SearchingTest, RandomTextPattern) {
     for (int len_text{0}; len_text < 1000; len_text++) {
-        for (int len_pattern{0}; len_pattern < 100; len_pattern++) {
+        for (int len_pattern{0}; len_pattern < 10; len_pattern++) {
             std::string text{generate_rand_char(len_text)};
             std::string pattern(generate_rand_char(len_pattern));
 
