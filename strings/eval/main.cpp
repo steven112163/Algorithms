@@ -1,6 +1,7 @@
 #include <BoyerMoore.hpp>
 #include <KnuthMorrisPratt.hpp>
 #include <NaiveSearch.hpp>
+#include <RabinKarp.hpp>
 #include <algorithm>
 #include <chrono>
 #include <functional>
@@ -31,7 +32,8 @@ int main(int argc, char* argv[]) {
             {"C++ Find", &standard_search},
             {"Naive Algorithm", &algo::NaiveSearch::search},
             {"Knuth-Morris-Pratt Algorithm", &algo::KnuthMorrisPratt::search},
-            {"Boyer-Moore Algorithm", &algo::BoyerMoore::search}};
+            {"Boyer-Moore Algorithm", &algo::BoyerMoore::search},
+            {"Rabin-Karp Algorithm", &algo::RabinKarp::search}};
 
     // Execution time
     std::unordered_map<std::string, std::vector<double>> search_records{};
@@ -76,7 +78,8 @@ int main(int argc, char* argv[]) {
 
         if (r.first == "Knuth-Morris-Pratt Algorithm")
             std::cout << "\t";
-        else if (r.first == "Boyer-Moore Algorithm")
+        else if (r.first == "Boyer-Moore Algorithm" ||
+                 r.first == "Rabin-Karp Algorithm")
             std::cout << "\t\t";
         else
             std::cout << "\t\t\t";

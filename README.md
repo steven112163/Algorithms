@@ -27,3 +27,4 @@ Algorithms &amp; Data Structures
 * [Naive Algorithm](strings/src/NaiveSearch.hpp) --- **O(nm)**
 * [Knuth-Morris-Pratt Algorithm](strings/src/KnuthMorrisPratt.hpp) --- **O(n + m)**
 * [Boyer-Moore Algorithm](strings/src/BoyerMoore.hpp) --- **O(n / m + m)**
+* [Rabin-Karp Algorithm](strings/src/RabinKarp.hpp) --- **O(n + m)**

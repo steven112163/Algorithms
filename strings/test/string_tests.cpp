@@ -3,6 +3,7 @@
 #include <BoyerMoore.hpp>
 #include <KnuthMorrisPratt.hpp>
 #include <NaiveSearch.hpp>
+#include <RabinKarp.hpp>
 #include <algorithm>
 #include <chrono>
 #include <functional>
@@ -18,7 +19,8 @@ std::vector<
     std::function<std::vector<int>(const std::string&, const std::string&)>>
     search_algorithms{&algo::NaiveSearch::search,
                       &algo::KnuthMorrisPratt::search,
-                      &algo::BoyerMoore::search};
+                      &algo::BoyerMoore::search,
+                      &algo::RabinKarp::search};
 
 namespace {
 TEST(SearchingTest, SimpleTextPattern) {
