@@ -107,8 +107,8 @@ int main(int argc, char* argv[]) {
     // Display the results
     std::cout << "\r=============== Results ===============\n";
     for (auto& r : results)
-        std::cout << r.first << "\t" << std::setprecision(8) << r.second
-                  << "\tseconds\n";
+        std::cout << r.first << "\t" << std::fixed << std::setprecision(8)
+                  << r.second << "\tseconds\n";
     std::cout << "=======================================" << std::endl;
 }
 
