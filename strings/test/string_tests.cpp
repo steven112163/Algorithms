@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 
+#include <BoothsAlgorithm.hpp>
 #include <BoyerMoore.hpp>
 #include <KnuthMorrisPratt.hpp>
+#include <NaiveRotate.hpp>
 #include <NaiveSearch.hpp>
 #include <RabinKarp.hpp>
 #include <algorithm>
@@ -11,7 +13,8 @@
 #include <random>
 #include <string>
 
-std::string generate_rand_char(const int& num);
+std::string generate_rand_char(const int& num, const int& start,
+                               const int& end);
 std::vector<int> standard_search(const std::string& text,
                                  const std::string& pattern);
 
@@ -19,8 +22,10 @@ std::vector<
     std::function<std::vector<int>(const std::string&, const std::string&)>>
     search_algorithms{&algo::NaiveSearch::search,
                       &algo::KnuthMorrisPratt::search,
-                      &algo::BoyerMoore::search,
-                      &algo::RabinKarp::search};
+                      &algo::BoyerMoore::search, &algo::RabinKarp::search};
+
+std::vector<std::function<std::string(const std::string&)>> rotate_algorithms{
+    &algo::BoothsAlgorithm::rotate};
 
 namespace {
 TEST(SearchingTest, SimpleTextPattern) {
@@ -45,8 +50,8 @@ TEST(SearchingTest, SimpleTextPattern) {
 TEST(SearchingTest, RandomTextPattern) {
     for (int len_text{0}; len_text < 1000; len_text++) {
         for (int len_pattern{0}; len_pattern < 10; len_pattern++) {
-            std::string text{generate_rand_char(len_text)};
-            std::string pattern(generate_rand_char(len_pattern));
+            std::string text{generate_rand_char(len_text, 32, 126)};
+            std::string pattern(generate_rand_char(len_pattern, 32, 126));
 
             std::vector<int> answer{standard_search(text, pattern)};
 
@@ -57,12 +62,40 @@ TEST(SearchingTest, RandomTextPattern) {
         }
     }
 }
+
+TEST(LexicographicallyMinimalTest, SimpleText) {
+    std::vector<std::string> texts{"abcde", "cdeab", "bbaaccaadd"};
+
+    for (auto& t : texts) {
+        std::string answer{algo::NaiveRotate::rotate(t)};
+
+        for (auto& algorithm : rotate_algorithms) {
+            std::string result{algorithm(t)};
+            EXPECT_EQ(answer, result);
+        }
+    }
+}
+
+TEST(LexicographicallyMinimalTest, RandomText) {
+    for (int len_text{0}; len_text < 1000; len_text++) {
+        std::string text{generate_rand_char(len_text, static_cast<int>('a'),
+                                            static_cast<int>('z'))};
+
+        std::string answer{algo::NaiveRotate::rotate(text)};
+
+        for (auto& algorithm : rotate_algorithms) {
+            std::string result{algorithm(text)};
+            EXPECT_EQ(answer, result);
+        }
+    }
+}
 }  // namespace
 
-std::string generate_rand_char(const int& num) {
+std::string generate_rand_char(const int& num, const int& start,
+                               const int& end) {
     std::mt19937 rng{static_cast<unsigned int>(
         std::chrono::high_resolution_clock::now().time_since_epoch().count())};
-    std::uniform_int_distribution<int> distribution{32, 126};
+    std::uniform_int_distribution<int> distribution{start, end};
 
     std::string rand_char{};
     for (int count{0}; count < num; count++)

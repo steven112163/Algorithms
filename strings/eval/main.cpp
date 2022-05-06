@@ -1,5 +1,7 @@
+#include <BoothsAlgorithm.hpp>
 #include <BoyerMoore.hpp>
 #include <KnuthMorrisPratt.hpp>
+#include <NaiveRotate.hpp>
 #include <NaiveSearch.hpp>
 #include <RabinKarp.hpp>
 #include <algorithm>
@@ -15,10 +17,17 @@
 #define ROUND 20
 #define LEN_TEXT 100000000
 #define LEN_PATTERN 1000
+#define LEN_TEXT_FOR_ROTATION 100000
 
-std::string generate_rand_char(const int& num);
+std::string generate_rand_char(const int& num, const int& start,
+                               const int& end);
+
 std::vector<int> standard_search(const std::string& text,
                                  const std::string& pattern);
+
+void display_results(
+    const std::vector<std::pair<std::string, double>>& search_results,
+    const std::vector<std::pair<std::string, double>>& rotate_results);
 void display_progress_bar(const int& round);
 std::vector<std::pair<std::string, double>> extract_results(
     const std::unordered_map<std::string, std::vector<double>>& records);
@@ -30,13 +39,21 @@ int main(int argc, char* argv[]) {
         std::function<std::vector<int>(const std::string&, const std::string&)>>
         search_algorithms{
             {"C++ Find", &standard_search},
-            {"Naive Algorithm", &algo::NaiveSearch::search},
+            {"Naive Pattern Searching", &algo::NaiveSearch::search},
             {"Knuth-Morris-Pratt Algorithm", &algo::KnuthMorrisPratt::search},
             {"Boyer-Moore Algorithm", &algo::BoyerMoore::search},
             {"Rabin-Karp Algorithm", &algo::RabinKarp::search}};
 
+    // Lexicographically minimal string rotation algorithms
+    std::unordered_map<std::string,
+                       std::function<std::string(const std::string&)>>
+        rotate_algorithms{
+            {"Naive Rotation", &algo::NaiveRotate::rotate},
+            {"Booth's Algorithm", &algo::BoothsAlgorithm::rotate}};
+
     // Execution time
     std::unordered_map<std::string, std::vector<double>> search_records{};
+    std::unordered_map<std::string, std::vector<double>> rotate_records{};
 
     for (int round{0}; round < ROUND; round++) {
         // Display progress
@@ -45,9 +62,10 @@ int main(int argc, char* argv[]) {
         using namespace std::chrono;
 
         // Generate random text and pattern
-        std::string text{generate_rand_char(LEN_TEXT)};
-        std::string pattern{generate_rand_char(LEN_PATTERN)};
+        std::string text{generate_rand_char(LEN_TEXT, 32, 126)};
+        std::string pattern{generate_rand_char(LEN_PATTERN, 32, 126)};
 
+        // Pattern searching
         for (auto& algo : search_algorithms) {
             // Record the start time
             high_resolution_clock::time_point start{
@@ -65,36 +83,46 @@ int main(int argc, char* argv[]) {
             // Record the elapsed time
             search_records[algo.first].push_back(time_span.count());
         }
+
+        // Generate random lowercase text
+        text = generate_rand_char(LEN_TEXT_FOR_ROTATION, static_cast<int>('a'),
+                                  static_cast<int>('z'));
+
+        // Minimal rotation
+        for (auto& algo : rotate_algorithms) {
+            // Record the start time
+            high_resolution_clock::time_point start{
+                high_resolution_clock::now()};
+
+            algo.second(text);
+
+            // Record the end time
+            high_resolution_clock::time_point end{high_resolution_clock::now()};
+
+            // Compute the elaped time
+            duration<double> time_span{
+                duration_cast<duration<double>>(end - start)};
+
+            // Record the elapsed time
+            rotate_records[algo.first].push_back(time_span.count());
+        }
     }
 
     // Sort the algorithms by median searching time
     std::vector<std::pair<std::string, double>> search_results{
         extract_results(search_records)};
+    std::vector<std::pair<std::string, double>> rotate_results{
+        extract_results(rotate_records)};
 
     // Display the results
-    std::cout << "\r======================= Results =======================\n";
-    for (auto& r : search_results) {
-        std::cout << r.first;
-
-        if (r.first == "Knuth-Morris-Pratt Algorithm")
-            std::cout << "\t";
-        else if (r.first == "Boyer-Moore Algorithm" ||
-                 r.first == "Rabin-Karp Algorithm")
-            std::cout << "\t\t";
-        else
-            std::cout << "\t\t\t";
-
-        std::cout << std::fixed << std::setprecision(8) << r.second
-                  << "\tseconds\n";
-    }
-    std::cout << "======================================================="
-              << std::endl;
+    display_results(search_results, rotate_results);
 }
 
-std::string generate_rand_char(const int& num) {
+std::string generate_rand_char(const int& num, const int& start,
+                               const int& end) {
     std::mt19937 rng{static_cast<unsigned int>(
         std::chrono::high_resolution_clock::now().time_since_epoch().count())};
-    std::uniform_int_distribution<int> distribution{32, 126};
+    std::uniform_int_distribution<int> distribution{start, end};
 
     std::string rand_char{};
     for (int count{0}; count < num; count++)
@@ -120,6 +148,44 @@ std::vector<int> standard_search(const std::string& text,
     }
 
     return std::move(indices);
+}
+
+void display_results(
+    const std::vector<std::pair<std::string, double>>& search_results,
+    const std::vector<std::pair<std::string, double>>& rotate_results) {
+    // Pattern searching
+    std::cout << "\r============== Pattern Searching Results ==============\n";
+    for (auto& r : search_results) {
+        std::cout << r.first;
+
+        if (r.first == "Knuth-Morris-Pratt Algorithm")
+            std::cout << "\t";
+        else if (r.first == "C++ Find")
+            std::cout << "\t\t\t";
+        else
+            std::cout << "\t\t";
+
+        std::cout << std::fixed << std::setprecision(8) << r.second
+                  << "\tseconds\n";
+    }
+    std::cout << "======================================================="
+              << std::endl
+              << std::endl;
+
+    // Lexicographically minimal string rotation
+    std::cout << "\r========== Minimal Rotations Results ==========\n";
+    for (auto& r : rotate_results) {
+        std::cout << r.first;
+
+        if (r.first == "Naive Rotation")
+            std::cout << "\t\t";
+        else
+            std::cout << "\t";
+
+        std::cout << std::fixed << std::setprecision(8) << r.second
+                  << "\tseconds\n";
+    }
+    std::cout << "===============================================" << std::endl;
 }
 
 void display_progress_bar(const int& round) {

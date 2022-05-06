@@ -24,7 +24,11 @@ Algorithms &amp; Data Structures
 
 ## String Algorithms
 ### Pattern Searching
-* [Naive Algorithm](strings/src/NaiveSearch.hpp) --- **O(nm)**
+* [Naive Pattern Searching](strings/src/NaiveSearch.hpp) --- **O(nm)**
 * [Knuth-Morris-Pratt Algorithm](strings/src/KnuthMorrisPratt.hpp) --- **O(n + m)**
 * [Boyer-Moore Algorithm](strings/src/BoyerMoore.hpp) --- **O(n / m + m)**
 * [Rabin-Karp Algorithm](strings/src/RabinKarp.hpp) --- **O(n + m)**
+
+### Lexicographically Minimal String Rotation
+* [Naive Lexicographically Minimal String Rotation](strings/src/NaiveRotate.hpp) --- **O(n<sup>2</sup>)**
+* [Booth's Algorithm](strings/src/BoothsAlgorithm.hpp) --- **O(n)**
