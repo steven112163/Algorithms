@@ -3,6 +3,7 @@
 #include <BoothsAlgorithm.hpp>
 #include <BoyerMoore.hpp>
 #include <KnuthMorrisPratt.hpp>
+#include <ManachersAlgorithm.hpp>
 #include <NaiveRotate.hpp>
 #include <NaiveSearch.hpp>
 #include <RabinKarp.hpp>
@@ -12,6 +13,7 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include <unordered_set>
 
 std::string generate_rand_char(const int& num, const int& start,
                                const int& end);
@@ -26,6 +28,12 @@ std::vector<
 
 std::vector<std::function<std::string(const std::string&)>> rotate_algorithms{
     &algo::BoothsAlgorithm::rotate};
+
+std::vector<std::function<std::string(const std::string&)>> lps_algorithms{
+    &algo::ManachersLPS::search};
+
+std::vector<std::function<std::unordered_set<std::string>(const std::string&)>>
+    aps_algorithms{&algo::ManachersAPS::search};
 
 namespace {
 TEST(SearchingTest, SimpleTextPattern) {
@@ -86,6 +94,34 @@ TEST(LexicographicallyMinimalTest, RandomText) {
         for (auto& algorithm : rotate_algorithms) {
             std::string result{algorithm(text)};
             EXPECT_EQ(answer, result);
+        }
+    }
+}
+
+TEST(PalindromeTest, SimpleLPSText) {
+    std::vector<std::pair<std::string, std::string>> tests{
+        {"abbaabba", "abbaabba"},
+        {"abba", "abba"},
+        {"babad", "bab"},
+        {"cbbd", "bb"}};
+
+    for (auto& t : tests) {
+        for (auto& algorithm : lps_algorithms) {
+            std::string result{algorithm(t.first)};
+            EXPECT_EQ(t.second, result);
+        }
+    }
+}
+
+TEST(PalindromeTest, SimpleAPSText) {
+    std::vector<std::pair<std::string, std::unordered_set<std::string>>> tests{
+        {"abbaabba",
+         {"a", "aa", "abba", "abbaabba", "b", "baab", "bb", "bbaabb"}}};
+
+    for (auto& t : tests) {
+        for (auto& algorithm : aps_algorithms) {
+            std::unordered_set<std::string> result{algorithm(t.first)};
+            EXPECT_EQ(t.second, result);
         }
     }
 }
