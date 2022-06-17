@@ -4,6 +4,7 @@
 #include <BoyerMoore.hpp>
 #include <KnuthMorrisPratt.hpp>
 #include <ManachersAlgorithm.hpp>
+#include <NaivePalindrome.hpp>
 #include <NaiveRotate.hpp>
 #include <NaiveSearch.hpp>
 #include <RabinKarp.hpp>
@@ -105,10 +106,28 @@ TEST(PalindromeTest, SimpleLPSText) {
         {"babad", "bab"},
         {"cbbd", "bb"}};
 
+    lps_algorithms.push_back(&algo::NaiveLPS::search);
+
     for (auto& t : tests) {
         for (auto& algorithm : lps_algorithms) {
             std::string result{algorithm(t.first)};
             EXPECT_EQ(t.second, result);
+        }
+    }
+
+    lps_algorithms.pop_back();
+}
+
+TEST(PalindromeTest, RandomLPSText) {
+    for (int len_text{0}; len_text < 1000; len_text++) {
+        std::string text{generate_rand_char(len_text, static_cast<int>('a'),
+                                            static_cast<int>('z'))};
+
+        std::string answer{algo::NaiveLPS::search(text)};
+
+        for (auto& algorithm : lps_algorithms) {
+            std::string result{algorithm(text)};
+            EXPECT_EQ(answer, result);
         }
     }
 }
@@ -118,10 +137,28 @@ TEST(PalindromeTest, SimpleAPSText) {
         {"abbaabba",
          {"a", "aa", "abba", "abbaabba", "b", "baab", "bb", "bbaabb"}}};
 
+    aps_algorithms.push_back(&algo::NaiveAPS::search);
+
     for (auto& t : tests) {
         for (auto& algorithm : aps_algorithms) {
             std::unordered_set<std::string> result{algorithm(t.first)};
             EXPECT_EQ(t.second, result);
+        }
+    }
+
+    aps_algorithms.pop_back();
+}
+
+TEST(PalindromeTest, RandomAPSText) {
+    for (int len_text{0}; len_text < 1000; len_text++) {
+        std::string text{generate_rand_char(len_text, static_cast<int>('a'),
+                                            static_cast<int>('z'))};
+
+        std::unordered_set<std::string> answer{algo::NaiveAPS::search(text)};
+
+        for (auto& algorithm : aps_algorithms) {
+            std::unordered_set<std::string> result{algorithm(text)};
+            EXPECT_EQ(answer, result);
         }
     }
 }
