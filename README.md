@@ -38,3 +38,12 @@ Algorithms &amp; Data Structures
 * [Expanding Around Center](src/ExpandPalindrome.hpp) --- **O(n<sup>2</sup>)**
 * [Dynamic Programming](src/DynamicPalindrome.hpp) --- **O(n<sup>2</sup>)**
 * [Manacher's Algorithm](src/ManachersAlgorithm.hpp) --- **O(n)**
+
+
+
+## Reference
+* [JAVA version](https://github.com/williamfiset/Algorithms)
+* [C/C++ version](https://github.com/akzare/Algorithms)
+
+## License
+This repository is released under the [MIT license](https://opensource.org/licenses/MIT). In short, this means you are free to use this software in any personal, open-source or commercial projects. Attribution is optional but appreciated.
