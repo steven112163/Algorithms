@@ -32,3 +32,9 @@ Algorithms &amp; Data Structures
 ### Lexicographically Minimal String Rotation
 * [Naive Lexicographically Minimal String Rotation](strings/src/NaiveRotate.hpp) --- **O(n<sup>2</sup>)**
 * [Booth's Algorithm](strings/src/BoothsAlgorithm.hpp) --- **O(n)**
+
+### Palindrome Searching
+* [Naive Palindrome Searching](src/NaivePalindrome.hpp) --- **O(n<sup>3</sup>)**
+* [Expanding Around Center](src/ExpandPalindrome.hpp) --- **O(n<sup>2</sup>)**
+* [Dynamic Programming](src/DynamicPalindrome.hpp) --- **O(n<sup>2</sup>)**
+* [Manacher's Algorithm](src/ManachersAlgorithm.hpp) --- **O(n)**

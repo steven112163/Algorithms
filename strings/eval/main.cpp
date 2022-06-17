@@ -1,6 +1,10 @@
 #include <BoothsAlgorithm.hpp>
 #include <BoyerMoore.hpp>
+#include <DynamicPalindrome.hpp>
+#include <ExpandPalindrome.hpp>
 #include <KnuthMorrisPratt.hpp>
+#include <ManachersAlgorithm.hpp>
+#include <NaivePalindrome.hpp>
 #include <NaiveRotate.hpp>
 #include <NaiveSearch.hpp>
 #include <RabinKarp.hpp>
@@ -12,12 +16,14 @@
 #include <random>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 #define ROUND 20
 #define LEN_TEXT 100000000
 #define LEN_PATTERN 1000
 #define LEN_TEXT_FOR_ROTATION 100000
+#define LEN_TEXT_FOR_PALINDROME 10000
 
 std::string generate_rand_char(const int& num, const int& start,
                                const int& end);
@@ -27,7 +33,9 @@ std::vector<int> standard_search(const std::string& text,
 
 void display_results(
     const std::vector<std::pair<std::string, double>>& search_results,
-    const std::vector<std::pair<std::string, double>>& rotate_results);
+    const std::vector<std::pair<std::string, double>>& rotate_results,
+    const std::vector<std::pair<std::string, double>>& lps_results,
+    const std::vector<std::pair<std::string, double>>& aps_results);
 void display_progress_bar(const int& round);
 std::vector<std::pair<std::string, double>> extract_results(
     const std::unordered_map<std::string, std::vector<double>>& records);
@@ -51,9 +59,26 @@ int main(int argc, char* argv[]) {
             {"Naive Rotation", &algo::NaiveRotate::rotate},
             {"Booth's Algorithm", &algo::BoothsAlgorithm::rotate}};
 
+    // Palindrome searching algorithms
+    std::unordered_map<std::string,
+                       std::function<std::string(const std::string&)>>
+        lps_algorithms{{"Naive Palindrome", &algo::NaiveLPS::search},
+                       {"Expand Around Center", &algo::ExpandLPS::search},
+                       {"Dynamic Programming", &algo::DynamicLPS::search},
+                       {"Manacher's Algorithm", &algo::ManachersLPS::search}};
+    std::unordered_map<
+        std::string,
+        std::function<std::unordered_set<std::string>(const std::string&)>>
+        aps_algorithms{{"Naive Palindrome", &algo::NaiveAPS::search},
+                       {"Expand Around Center", &algo::ExpandAPS::search},
+                       {"Dynamic Programming", &algo::DynamicAPS::search},
+                       {"Manacher's Algorithm", &algo::ManachersAPS::search}};
+
     // Execution time
     std::unordered_map<std::string, std::vector<double>> search_records{};
     std::unordered_map<std::string, std::vector<double>> rotate_records{};
+    std::unordered_map<std::string, std::vector<double>> lps_records{};
+    std::unordered_map<std::string, std::vector<double>> aps_records{};
 
     for (int round{0}; round < ROUND; round++) {
         // Display progress
@@ -106,6 +131,48 @@ int main(int argc, char* argv[]) {
             // Record the elapsed time
             rotate_records[algo.first].push_back(time_span.count());
         }
+
+        // Generate random lowercase text
+        text = generate_rand_char(LEN_TEXT_FOR_PALINDROME,
+                                  static_cast<int>('a'), static_cast<int>('z'));
+
+        // Longest palindrome searching
+        for (auto& algo : lps_algorithms) {
+            // Record the start time
+            high_resolution_clock::time_point start{
+                high_resolution_clock::now()};
+
+            algo.second(text);
+
+            // Record the end time
+            high_resolution_clock::time_point end{high_resolution_clock::now()};
+
+            // Compute the elaped time
+            duration<double> time_span{
+                duration_cast<duration<double>>(end - start)};
+
+            // Record the elapsed time
+            lps_records[algo.first].push_back(time_span.count());
+        }
+
+        // All palindromes searching
+        for (auto& algo : aps_algorithms) {
+            // Record the start time
+            high_resolution_clock::time_point start{
+                high_resolution_clock::now()};
+
+            algo.second(text);
+
+            // Record the end time
+            high_resolution_clock::time_point end{high_resolution_clock::now()};
+
+            // Compute the elaped time
+            duration<double> time_span{
+                duration_cast<duration<double>>(end - start)};
+
+            // Record the elapsed time
+            aps_records[algo.first].push_back(time_span.count());
+        }
     }
 
     // Sort the algorithms by median searching time
@@ -113,9 +180,13 @@ int main(int argc, char* argv[]) {
         extract_results(search_records)};
     std::vector<std::pair<std::string, double>> rotate_results{
         extract_results(rotate_records)};
+    std::vector<std::pair<std::string, double>> lps_results{
+        extract_results(lps_records)};
+    std::vector<std::pair<std::string, double>> aps_results{
+        extract_results(aps_records)};
 
     // Display the results
-    display_results(search_results, rotate_results);
+    display_results(search_results, rotate_results, lps_results, aps_results);
 }
 
 std::string generate_rand_char(const int& num, const int& start,
@@ -152,7 +223,9 @@ std::vector<int> standard_search(const std::string& text,
 
 void display_results(
     const std::vector<std::pair<std::string, double>>& search_results,
-    const std::vector<std::pair<std::string, double>>& rotate_results) {
+    const std::vector<std::pair<std::string, double>>& rotate_results,
+    const std::vector<std::pair<std::string, double>>& lps_results,
+    const std::vector<std::pair<std::string, double>>& aps_results) {
     // Pattern searching
     std::cout << "\r============== Pattern Searching Results ==============\n";
     for (auto& r : search_results) {
@@ -168,8 +241,7 @@ void display_results(
         std::cout << std::fixed << std::setprecision(8) << r.second
                   << "\tseconds\n";
     }
-    std::cout << "======================================================="
-              << std::endl
+    std::cout << "=======================================================\n"
               << std::endl;
 
     // Lexicographically minimal string rotation
@@ -184,6 +256,24 @@ void display_results(
 
         std::cout << std::fixed << std::setprecision(8) << r.second
                   << "\tseconds\n";
+    }
+    std::cout << "===============================================\n"
+              << std::endl;
+
+    // Longest palindrome searching
+    std::cout << "\r===== Longest Palindrome Searching Results ====\n";
+    for (auto& r : lps_results) {
+        std::cout << r.first << "\t" << std::fixed << std::setprecision(8)
+                  << r.second << "\tseconds\n";
+    }
+    std::cout << "===============================================\n"
+              << std::endl;
+
+    // All palindromes searching
+    std::cout << "\r====== All Palindromes Searching Results ======\n";
+    for (auto& r : aps_results) {
+        std::cout << r.first << "\t" << std::fixed << std::setprecision(8)
+                  << r.second << "\tseconds\n";
     }
     std::cout << "===============================================" << std::endl;
 }

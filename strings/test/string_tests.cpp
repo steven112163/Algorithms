@@ -3,6 +3,7 @@
 #include <BoothsAlgorithm.hpp>
 #include <BoyerMoore.hpp>
 #include <DynamicPalindrome.hpp>
+#include <ExpandPalindrome.hpp>
 #include <KnuthMorrisPratt.hpp>
 #include <ManachersAlgorithm.hpp>
 #include <NaivePalindrome.hpp>
@@ -32,10 +33,12 @@ std::vector<std::function<std::string(const std::string&)>> rotate_algorithms{
     &algo::BoothsAlgorithm::rotate};
 
 std::vector<std::function<std::string(const std::string&)>> lps_algorithms{
-    &algo::ManachersLPS::search, &algo::DynamicLPS::search};
+    &algo::ManachersLPS::search, &algo::DynamicLPS::search,
+    &algo::ExpandLPS::search};
 
 std::vector<std::function<std::unordered_set<std::string>(const std::string&)>>
-    aps_algorithms{&algo::ManachersAPS::search, &algo::DynamicAPS::search};
+    aps_algorithms{&algo::ManachersAPS::search, &algo::DynamicAPS::search,
+                   &algo::ExpandAPS::search};
 
 namespace {
 TEST(SearchingTest, SimpleTextPattern) {

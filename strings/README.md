@@ -16,3 +16,11 @@
 | :--------------------------------------------------------------------- | :--------------: | :---: |
 | [Naive Lexicographically Minimal String Rotation](src/NaiveRotate.hpp) | O(n<sup>2</sup>) | O(n)  |
 | [Booth's Algorithm](src/BoothsAlgorithm.hpp)                           |       O(n)       | O(n)  |
+
+### Palindrome Searching
+| Algorithm                                             |       Time       |      Space       |
+| :---------------------------------------------------- | :--------------: | :--------------: |
+| [Naive Palindrome Searching](src/NaivePalindrome.hpp) | O(n<sup>3</sup>) |       O(1)       |
+| [Expanding Around Center](src/ExpandPalindrome.hpp)   | O(n<sup>2</sup>) |       O(1)       |
+| [Dynamic Programming](src/DynamicPalindrome.hpp)      | O(n<sup>2</sup>) | O(n<sup>2</sup>) |
+| [Manacher's Algorithm](src/ManachersAlgorithm.hpp)    |       O(n)       |       O(n)       |
